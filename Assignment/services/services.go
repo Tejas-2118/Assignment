@@ -13,8 +13,7 @@ import (
 )
 
 var DB *sql.DB
-var Cache *redis.Client
-var Ctx = context.Background()
+var RedisClient *redis.Client
 
 func InitDatabase(cfg *config.Config) error {
 	var err error
@@ -25,7 +24,6 @@ func InitDatabase(cfg *config.Config) error {
 	return DB.Ping()
 }
 
-var RedisClient *redis.Client
 
 func InitCache(cfg *config.Config) error {
 	RedisClient = redis.NewClient(&redis.Options{
