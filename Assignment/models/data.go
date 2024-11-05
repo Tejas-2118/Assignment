@@ -30,7 +30,7 @@ func (r *Record) Insert() error {
         INSERT INTO Employee (first_name, last_name, company_name, address, city, county, postal, phone, email, web)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `
-	result, err := services.DB.Exec(query,
+	_, err := services.DB.Exec(query,
 		r.FirstName, r.LastName, r.CompanyName, r.Address, r.City, r.County,
 		r.Postal, r.Phone, r.Email, r.Web,
 	)
@@ -38,12 +38,7 @@ func (r *Record) Insert() error {
 		logger.Error.Println(gin.H{"error": err})
 		return fmt.Errorf("failed to insert record into database: %w", err)
 	}
-	lastInsertID, err := result.LastInsertId()
-	if err != nil {
-		logger.Error.Println(gin.H{"error": err})
-		return fmt.Errorf("failed to retrieve last insert ID: %w", err)
-	}
-	r.ID = int(lastInsertID)
+
 
 	return nil
 }
